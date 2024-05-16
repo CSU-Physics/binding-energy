@@ -1,6 +1,6 @@
 {
   "name": "binding-energy-ui-final",
-  "homepage": "https://binding-energy.github.io",
+  "homepage": "https://CSU-Physics.github.io/binding-energy",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
