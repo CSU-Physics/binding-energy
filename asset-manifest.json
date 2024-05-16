@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/static/css/main.17f6f63b.css",
-    "main.js": "/static/js/main.38d5303c.js",
-    "static/media/header3.png": "/static/media/header3.37804f0c5084a5a722ad.png",
-    "static/media/Background.jpg": "/static/media/Background.af815c1f918f072e83f3.jpg",
-    "index.html": "/index.html",
-    "main.17f6f63b.css.map": "/static/css/main.17f6f63b.css.map",
-    "main.38d5303c.js.map": "/static/js/main.38d5303c.js.map"
+    "main.css": "/binding-energy/static/css/main.9eef6b0e.css",
+    "main.js": "/binding-energy/static/js/main.38d5303c.js",
+    "static/media/header3.png": "/binding-energy/static/media/header3.37804f0c5084a5a722ad.png",
+    "static/media/Background.jpg": "/binding-energy/static/media/Background.af815c1f918f072e83f3.jpg",
+    "index.html": "/binding-energy/index.html",
+    "main.9eef6b0e.css.map": "/binding-energy/static/css/main.9eef6b0e.css.map",
+    "main.38d5303c.js.map": "/binding-energy/static/js/main.38d5303c.js.map"
   },
   "entrypoints": [
-    "static/css/main.17f6f63b.css",
+    "static/css/main.9eef6b0e.css",
     "static/js/main.38d5303c.js"
   ]
 }
