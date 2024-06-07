@@ -1,15 +1,16 @@
 {
   "files": {
-    "main.css": "/binding-energy/static/css/main.9eef6b0e.css",
-    "main.js": "/binding-energy/static/js/main.38d5303c.js",
+    "main.css": "/binding-energy/static/css/main.192efc49.css",
+    "main.js": "/binding-energy/static/js/main.f383c7c5.js",
     "static/media/header3.png": "/binding-energy/static/media/header3.37804f0c5084a5a722ad.png",
+    "static/media/Binding-Energy_per-Nucleon.jpg": "/binding-energy/static/media/Binding-Energy_per-Nucleon.adc5beb3a082b10115d7.jpg",
     "static/media/Background.jpg": "/binding-energy/static/media/Background.af815c1f918f072e83f3.jpg",
     "index.html": "/binding-energy/index.html",
-    "main.9eef6b0e.css.map": "/binding-energy/static/css/main.9eef6b0e.css.map",
-    "main.38d5303c.js.map": "/binding-energy/static/js/main.38d5303c.js.map"
+    "main.192efc49.css.map": "/binding-energy/static/css/main.192efc49.css.map",
+    "main.f383c7c5.js.map": "/binding-energy/static/js/main.f383c7c5.js.map"
   },
   "entrypoints": [
-    "static/css/main.9eef6b0e.css",
-    "static/js/main.38d5303c.js"
+    "static/css/main.192efc49.css",
+    "static/js/main.f383c7c5.js"
   ]
 }
