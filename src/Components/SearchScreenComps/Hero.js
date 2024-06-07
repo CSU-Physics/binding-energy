@@ -27,19 +27,19 @@ const Hero = () => {
             nav('/calulations')
 
         }
-        if(Z < 0 ) {
+        if (Z < 0) {
             setErrMsg1("Number cannot be negative!")
             setError1(true);
         }
-        if(N < 0 ) {
+        if (N < 0) {
             setErrMsg2("Number cannot be negative!")
             setError2(true);
         }
-        if(String(Z) === "e") {
+        if (String(Z) === "e") {
             setErrMsg1("Input must be a number!")
             setError1(true);
         }
-        if(String(N) === "e") {
+        if (String(N) === "e") {
             setErrMsg2("Input must be a number!")
             setError2(true);
         }
@@ -56,10 +56,11 @@ const Hero = () => {
 
 
     return (
-        <div className=" flex flex-col items-center text-black bg-white text-lg pt-10 w-full" >
+        <div className=" flex flex-col items-center text-black bg-white text-lg pt-10 w-11/12 lg:w-full p-3" >
             {/* lg:w-[900px] sm:w-fit */}
-            <div className="w-[900px]">
-                <h1 className="text-start text-2xl" >Nuclear Binding Energy Calculator</h1>
+            <div className=" md:w-[700px] lg:w-[900px]">
+
+                <h1 className="text-start text-lg lg:text-2xl md:text-xl" >Nuclear Binding Energy Calculator</h1>
                 <br />
                 <p className="text-wrap leading-[25px]" >
                     This website provides a user-friendly tool for calculating the binding energy of any specified nuclide.
@@ -80,7 +81,8 @@ const Hero = () => {
                 </div>
             </div>
 
-            <div className="w-[900px] m-16 my-8">
+            <div className="md:w-[700px] lg:w-[900px] my-8">
+                {/* <div className="w-[900px] m-16 my-8"> */}
                 <h1 className="text-start text-2xl" >
                     What is Nuclear Binding Energy?
                 </h1>
@@ -105,6 +107,17 @@ const Hero = () => {
                     while nickel-62 has about 8.7945 MeV per nucleon. This measure gives insight into the stability of a nucleus: the higher the binding energy per nucleon,
                     the more stable the nucleus.
                 </p>
+
+                <div className=" m-6 flex flex-col items-center justify-center" >
+                    <img src={require("./Binding-Energy_per-Nucleon.jpg")} className="w-[608px] h-[458px] self" />
+                    <h1 className=" text-sm text-center text-red-500 font-semibold">This graph displays the binding energy per nucleon (BE/A) in MeV plotted against the total number of nucleons (A) for 3,357 nuclides. The data for this plot are sourced from the IAEA Nuclear Data Services and can be downloaded along with the XmGrace file via the following links:</h1>
+                    <div className="flex flex-col text-sm text-blue-400 font-semibold text-center" >
+                        <a href="https://github.com/CSU-Physics/binding-energy/blob/main/BE_A.data" >Data: BE_A.data</a>
+                        <a className=" to-blue-300" href="https://github.com/CSU-Physics/binding-energy/blob/main/BE_A.agr" >XmGrace file: BE_A.agr</a>
+                    </div>
+
+                </div>
+
 
             </div>
 
