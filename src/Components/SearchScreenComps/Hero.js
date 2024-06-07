@@ -115,7 +115,7 @@ const Hero = () => {
                         <a target="blank"  href="https://github.com/CSU-Physics/binding-energy/blob/main/BE_A.data" >Data: BE_A.data</a>
                         <a target="blank" className=" to-blue-300" href="https://github.com/CSU-Physics/binding-energy/blob/main/BE_A.agr" >XmGrace file: BE_A.agr</a>
                     </div>
-
+{/* S */}
                 </div>
 
 
