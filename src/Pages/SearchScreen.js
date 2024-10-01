@@ -6,7 +6,7 @@ const SearchScreen = () => {
 
     return (
     <div className=" p-0 bg-white text-black h-full" >
-        <NavBar />
+        {/* <NavBar /> */}
         <Hero />
     </div>
     )
