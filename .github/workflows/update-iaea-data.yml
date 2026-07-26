@@ -33,8 +33,20 @@ jobs:
       - name: Install dependencies
         run: npm ci --legacy-peer-deps
 
+      - name: Test the data guardrails
+        run: npm run data:test
+
       - name: Download and validate the latest IAEA data
         run: npm run data:update
+
+      - name: Upload the update comparison report
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: iaea-data-update-report-${{ github.run_number }}
+          path: artifacts/iaea-data-update/
+          if-no-files-found: warn
+          retention-days: 90
 
       - name: Run regression tests
         env:
@@ -55,17 +67,7 @@ jobs:
           delete-branch: true
           commit-message: "Update IAEA nuclide data snapshot"
           title: "Update IAEA nuclide data snapshot"
-          body: |
-            Automated update of the local IAEA LiveChart dataset.
-
-            This pull request:
-            - regenerates `public/data/nuclides.json`;
-            - records the new extraction date and source checksum;
-            - validates representative nuclides;
-            - runs the regression tests;
-            - verifies the production build.
-
-            The update will be merged automatically after all requirements pass.
+          body-path: artifacts/iaea-data-update/report.md
           add-paths: |
             public/data/nuclides.json
 
