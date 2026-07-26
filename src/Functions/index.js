@@ -3,8 +3,7 @@
 import { mass_of_proton, mass_of_neutron, mass_of_electron, conversion_amu_MeV, aV, aS, aC, aA, aP } from '../Functions/constants.js'
 
 const BE_func = (Mx, Z, N) => {
-    let bindnig_engergy = mass_defect_func(Mx, Z, N) * conversion_amu_MeV; // binding energy in MeV
-    return [bindnig_engergy.toFixed(4)];
+    return mass_defect_func(Mx, Z, N) * conversion_amu_MeV;
 };
 
 const mass_defect_func = (Mx, Z, N) => {
@@ -69,7 +68,7 @@ const elements = (symbol) => {
             return "Carbon";
 
         case "N":
-            return "Notrogen";
+            return "Nitrogen";
 
         case "O":
             return "Oxygen";
@@ -93,7 +92,7 @@ const elements = (symbol) => {
             return "Silicon";
 
         case "P":
-            return "Carbon";
+            return "Phosphorus";
 
         case "S":
             return "Sulfur";
@@ -132,7 +131,7 @@ const elements = (symbol) => {
             return "Cobalt";
 
         case "Ni":
-            return "Nikel";
+            return "Nickel";
 
         case "Cu":
             return "Copper";

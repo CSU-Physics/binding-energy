@@ -18,6 +18,10 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "data:build": "node scripts/build-nuclide-data.mjs",
+    "data:validate": "node scripts/validate-nuclide-data.mjs",
+    "data:update": "npm run data:build && npm run data:validate",
+    "prebuild": "npm run data:validate",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
     "build": "react-scripts build",
@@ -43,6 +47,7 @@
     ]
   },
   "devDependencies": {
+    "csv-parse": "^7.0.1",
     "gh-pages": "^6.1.1",
     "tailwindcss": "^3.4.1"
   }
