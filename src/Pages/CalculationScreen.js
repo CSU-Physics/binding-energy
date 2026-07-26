@@ -145,7 +145,7 @@ const CalulationScreen = () => {
 
                     <h2 className=" text-center text-2xl font-semibold mb-2  mt-12" > The Liquid Drop Model</h2>
                     <p className="text-wrap md:text-xl sm:text-sm m-4 mx-8 font-normal lg:leading-[40px] md:leading-[30px]">
-                        B.E. = a<sub>V</sub>A - a<sub>S</sub>A<sup>2/3</sup> - a<sub>c</sub>Z(Z-1)/A<sup>1/3</sup> - a<sub>A</sub>(A-2Z)<sup>2</sup>/A<sup>2</sup> ± a<sub>P</sub>/A<sup>1/2</sup>
+                        B.E. = a<sub>V</sub>A - a<sub>S</sub>A<sup>2/3</sup> - a<sub>c</sub>Z(Z-1)/A<sup>1/3</sup> - a<sub>A</sub>(A-2Z)<sup>2</sup>/A ± a<sub>P</sub>/A<sup>1/2</sup>
                         <br />
                         Volume term coefficient: a<sub>V</sub> = {aV} MeV
                         <br />
