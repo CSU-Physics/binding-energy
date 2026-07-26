@@ -47,30 +47,6 @@ const liquid_drop_model = (Z, N) => {
   );
 };
 
-// const liquid_drop_model = (Z, N) => {
-//     const A = Z + N ;
-//     const Volume_term = aV * A;
-//     const Surface_term = - aS * (A ** (2 / 3));
-//     const Coulomb_term = - aC * (Z * (Z - 1)) / (A ** (1 / 3));
-//     const Asymmetry_term = - aA * ((A - (Z*2)) ** 2) / A;
-//     const Pairing_term = aP / (A ** (1 / 2))
-
-//     let X = Volume_term + Surface_term + Coulomb_term + Asymmetry_term ;
-
-//     if (N % 2 !== 0 && Z % 2 !== 0) {
-//        let BE = X - Pairing_term;
-//        return BE;
-//     }
-//     else if (N % 2 === 0 && Z % 2 === 0) {
-//         let BE =  X + Pairing_term;
-//         return BE;
-//     }
-//     else {
-//     let BE = X;
-//     return BE;
-//     }
-// }
-
 
 const elements = (symbol) => {
     switch (symbol) {
