@@ -1,0 +1,70 @@
+name: Check for IAEA data updates
+
+on:
+  workflow_dispatch:
+
+  schedule:
+    # First day of every month at 4:17 AM New York time
+    - cron: "17 4 1 * *"
+      timezone: "America/New_York"
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: iaea-data-update
+  cancel-in-progress: false
+
+jobs:
+  update-data:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v6
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci --legacy-peer-deps
+
+      - name: Download and validate the latest IAEA data
+        run: npm run data:update
+
+      - name: Run regression tests
+        env:
+          CI: "true"
+        run: npm test -- --watchAll=false --runInBand
+
+      - name: Verify the production build
+        env:
+          CI: "true"
+        run: npm run build
+
+      - name: Create an update pull request
+        uses: peter-evans/create-pull-request@v8
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: automation/update-iaea-data
+          delete-branch: true
+          commit-message: "Update IAEA nuclide data snapshot"
+          title: "Update IAEA nuclide data snapshot"
+          body: |
+            Automated update of the local IAEA LiveChart dataset.
+
+            This pull request:
+            - regenerates public/data/nuclides.json;
+            - records the new extraction date and source checksum;
+            - validates representative nuclides;
+            - runs the regression tests;
+            - verifies the production build.
+
+            Please review the scientific changes before merging.
+          add-paths: |
+            public/data/nuclides.json
+
