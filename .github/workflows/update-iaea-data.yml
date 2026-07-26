@@ -47,6 +47,7 @@ jobs:
         run: npm run build
 
       - name: Create an update pull request
+        id: cpr
         uses: peter-evans/create-pull-request@v8
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -58,13 +59,22 @@ jobs:
             Automated update of the local IAEA LiveChart dataset.
 
             This pull request:
-            - regenerates public/data/nuclides.json;
+            - regenerates `public/data/nuclides.json`;
             - records the new extraction date and source checksum;
             - validates representative nuclides;
             - runs the regression tests;
             - verifies the production build.
 
-            Please review the scientific changes before merging.
+            The update will be merged automatically after all requirements pass.
           add-paths: |
             public/data/nuclides.json
 
+      - name: Automatically merge the validated update
+        if: ${{ steps.cpr.outputs.pull-request-number != '' }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh pr merge "${{ steps.cpr.outputs.pull-request-number }}" \
+            --squash \
+            --auto \
+            --delete-branch
