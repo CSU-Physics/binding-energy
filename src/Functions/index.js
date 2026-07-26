@@ -12,30 +12,64 @@ const mass_defect_func = (Mx, Z, N) => {
     return mass_defect;
 }
 
-
 const liquid_drop_model = (Z, N) => {
-    const A = Z + N ;
-    const Volume_term = aV * A;
-    const Surface_term = - aS * (A ** (2 / 3));
-    const Coulomb_term = - aC * (Z * (Z - 1)) / (A ** (1 / 3));
-    const Asymmetry_term = - aA * ((A - (Z*2)) ** 2) / (A**2);
-    const Pairing_term = aP / (A ** (1 / 2))
+  if (!Number.isInteger(Z) || !Number.isInteger(N) || Z < 0 || N < 0) {
+    throw new RangeError("Z and N must be non-negative integers.");
+  }
 
-    let X = Volume_term + Surface_term + Coulomb_term + Asymmetry_term ;
+  const A = Z + N;
 
-    if (N % 2 !== 0 && Z % 2 !== 0) {
-       let BE = X - Pairing_term;
-       return BE;
-    }
-    else if (N % 2 === 0 && Z % 2 === 0) {
-        let BE =  X + Pairing_term;
-        return BE;
-    }
-    else {
-    let BE = X;
-    return BE;
-    }
-}
+  if (A === 0) {
+    throw new RangeError("A = Z + N must be positive.");
+  }
+
+  const volumeTerm = aV * A;
+  const surfaceTerm = -aS * A ** (2 / 3);
+  const coulombTerm =
+    -aC * Z * (Z - 1) / A ** (1 / 3);
+  const asymmetryTerm =
+    -aA * (A - 2 * Z) ** 2 / A;
+
+  let pairingTerm = 0;
+
+  if (Z % 2 === 0 && N % 2 === 0) {
+    pairingTerm = aP / Math.sqrt(A);
+  } else if (Z % 2 !== 0 && N % 2 !== 0) {
+    pairingTerm = -aP / Math.sqrt(A);
+  }
+
+  return (
+    volumeTerm +
+    surfaceTerm +
+    coulombTerm +
+    asymmetryTerm +
+    pairingTerm
+  );
+};
+
+// const liquid_drop_model = (Z, N) => {
+//     const A = Z + N ;
+//     const Volume_term = aV * A;
+//     const Surface_term = - aS * (A ** (2 / 3));
+//     const Coulomb_term = - aC * (Z * (Z - 1)) / (A ** (1 / 3));
+//     const Asymmetry_term = - aA * ((A - (Z*2)) ** 2) / A;
+//     const Pairing_term = aP / (A ** (1 / 2))
+
+//     let X = Volume_term + Surface_term + Coulomb_term + Asymmetry_term ;
+
+//     if (N % 2 !== 0 && Z % 2 !== 0) {
+//        let BE = X - Pairing_term;
+//        return BE;
+//     }
+//     else if (N % 2 === 0 && Z % 2 === 0) {
+//         let BE =  X + Pairing_term;
+//         return BE;
+//     }
+//     else {
+//     let BE = X;
+//     return BE;
+//     }
+// }
 
 
 const elements = (symbol) => {
