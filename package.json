@@ -19,8 +19,10 @@
   "scripts": {
     "start": "react-scripts start",
     "data:build": "node scripts/build-nuclide-data.mjs",
+    "data:compare": "node scripts/compare-nuclide-data.mjs",
+    "data:test": "node --test scripts/*.test.mjs",
     "data:validate": "node scripts/validate-nuclide-data.mjs",
-    "data:update": "npm run data:build && npm run data:validate",
+    "data:update": "node scripts/update-nuclide-data.mjs",
     "prebuild": "npm run data:validate",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",

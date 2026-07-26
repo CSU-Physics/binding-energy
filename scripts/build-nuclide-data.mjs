@@ -1,5 +1,7 @@
 import { createHash } from "node:crypto";
 import { mkdir, writeFile } from "node:fs/promises";
+import { dirname, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 import { parse } from "csv-parse/sync";
 
 const SOURCE_URL =
@@ -22,6 +24,24 @@ const numberOrNull = (value) => {
 
 const scaleOrNull = (value, divisor) =>
   value === null ? null : Number((value / divisor).toFixed(12));
+
+const getOutputFile = () => {
+  const outputArgumentIndex = process.argv.indexOf("--output");
+
+  if (outputArgumentIndex === -1) {
+    return fileURLToPath(
+      new URL("../public/data/nuclides.json", import.meta.url),
+    );
+  }
+
+  const outputPath = process.argv[outputArgumentIndex + 1];
+
+  if (!outputPath || outputPath.startsWith("--")) {
+    throw new Error("--output requires a file path");
+  }
+
+  return resolve(outputPath);
+};
 
 console.log("Downloading IAEA LiveChart ground-state data...");
 
@@ -128,16 +148,12 @@ const output = {
   nuclides,
 };
 
-const outputDirectory = new URL("../public/data/", import.meta.url);
-const outputFile = new URL(
-  "../public/data/nuclides.json",
-  import.meta.url,
-);
+const outputFile = getOutputFile();
 
-await mkdir(outputDirectory, { recursive: true });
+await mkdir(dirname(outputFile), { recursive: true });
 await writeFile(outputFile, `${JSON.stringify(output, null, 2)}\n`, "utf8");
 
-console.log(`Created public/data/nuclides.json`);
+console.log(`Created ${outputFile}`);
 console.log(`Nuclide records: ${records.length}`);
 console.log(`Records with mass and binding data: ${calculableRecordCount}`);
 console.log(`Source SHA-256: ${sourceSha256}`);

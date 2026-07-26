@@ -21,10 +21,28 @@ units, record counts, and SHA-256 checksum of the source CSV. Atomic masses are
 converted from micro-u to u, and binding energies per nucleon are converted
 from keV to MeV.
 
-To deliberately update the snapshot from IAEA and validate it:
+To deliberately update the snapshot from IAEA, validate it, and compare it
+with the committed baseline:
 
 ```bash
 npm run data:update
+```
+
+The update is fail-closed: a candidate snapshot is built separately and only
+replaces `public/data/nuclides.json` after all schema, physical-range, reference
+nuclide, and change-policy checks pass. Reports are written to
+`artifacts/iaea-data-update/report.md` and `report.json`. The report includes
+record counts, added and removed nuclides, field-change counts, source
+checksums, extraction dates, and the largest mass and binding-energy changes.
+
+The change policy rejects unexpected record-count shifts, excessive removals
+or loss of calculable records, extraction-date regressions, changed source
+content without a newer extraction date, and large changes to an individual
+mass or binding energy. Run the guardrail regression tests without accessing
+the network using:
+
+```bash
+npm run data:test
 ```
 
 To validate the already committed snapshot without accessing the network:
