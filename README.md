@@ -1,4 +1,41 @@
-# Getting Started with Create React App
+# Nuclear Binding Energy Calculator
+
+This React application compares nuclear binding energies calculated from
+tabulated atomic masses with estimates from the conventional liquid-drop model.
+
+## Nuclide data
+
+The production calculator is self-contained. It reads the versioned dataset in
+`public/data/nuclides.json` and does not require the former Render API at
+runtime.
+
+The committed dataset is generated from the IAEA Nuclear Data Services
+LiveChart ground-state endpoint:
+
+```text
+https://nds.iaea.org/relnsd/v1/data?fields=ground_states&nuclides=all
+```
+
+Its metadata records the source URL, extraction date, original and stored
+units, record counts, and SHA-256 checksum of the source CSV. Atomic masses are
+converted from micro-u to u, and binding energies per nucleon are converted
+from keV to MeV.
+
+To deliberately update the snapshot from IAEA and validate it:
+
+```bash
+npm run data:update
+```
+
+To validate the already committed snapshot without accessing the network:
+
+```bash
+npm run data:validate
+```
+
+The production build automatically validates the dataset before compiling.
+
+## Development
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 

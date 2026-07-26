@@ -1,5 +1,4 @@
 import React from "react";
-import NavBar from "../Components/SearchScreenComps/Nav.bar";
 import Hero from "../Components/SearchScreenComps/Hero";
 
 const SearchScreen = () => {

@@ -136,8 +136,12 @@ const Hero = () => {
                     </p>
 
                     <div className=" m-6 flex flex-col items-center justify-center" >
-                        <img src={require("./Binding-Energy_per-Nucleon.jpg")} className="w-[608px] h-[458px] self" />
-                        <p className=" text-sm text-center text-red-500 font-semibold">This graph displays the binding energy per nucleon (BE/A) in MeV plotted against the total number of nucleons (A) for 3,357 nuclides. The data for this plot are sourced from the <a className="text-sm text-blue-400 font-semibold" href="https://nds.iaea.org/" target="blank" >IAEA Nuclear Data Services</a> and can be downloaded along with the XmGrace file via the following links:</p>
+                        <img
+                            src={require("./Binding-Energy_per-Nucleon.jpg")}
+                            className="w-[608px] h-[458px] self"
+                            alt="Binding energy per nucleon plotted against mass number"
+                        />
+                        <p className=" text-sm text-center text-red-500 font-semibold">This graph displays the binding energy per nucleon (BE/A) in MeV plotted against the total number of nucleons (A) for 3,356 nuclides with tabulated atomic-mass and binding-energy values. The data for this plot are sourced from the <a className="text-sm text-blue-400 font-semibold" href="https://nds.iaea.org/" target="blank" >IAEA Nuclear Data Services</a> and can be downloaded along with the XmGrace file via the following links:</p>
                         <div className="flex flex-col text-sm text-blue-400 font-semibold text-center" >
                             <a target="blank" href="https://github.com/CSU-Physics/binding-energy/blob/main/BE_A.data" >Matlab Code</a>
                             <a target="blank" className=" to-blue-300" href="https://github.com/CSU-Physics/binding-energy/blob/main/BE_A.agr" >XmGrace file: BE_A.agr</a>

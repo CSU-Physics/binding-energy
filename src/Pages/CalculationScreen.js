@@ -1,53 +1,82 @@
 
-// importing constant parameters
-import { mass_of_proton, mass_of_neutron, mass_of_electron, aV, aS, aC, aA, aP, conversion_amu_MeV } from '../Functions/constants.js'
-
-
-import React from "react";
-import { BE_func, mass_defect_func, splitElementName } from "../Functions/index.js";
+import React, { useEffect, useState } from "react";
+import {
+    mass_of_proton,
+    mass_of_neutron,
+    mass_of_electron,
+    aV,
+    aS,
+    aC,
+    aA,
+    aP,
+    conversion_amu_MeV
+} from "../Functions/constants.js";
+import {
+    BE_func,
+    mass_defect_func,
+    splitElementName,
+    liquid_drop_model,
+    elements
+} from "../Functions/index.js";
 import { useGlobalState } from "../Components/Context.js";
-import { liquid_drop_model, elements } from "../Functions/index.js";
-import { useEffect } from "react";
-import { useState } from "react";
 import Typed from 'react-typed';
 import IsotopeNotFound from "./IsotopeNotFound.js";
 import { FaArrowLeft } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 import IsotopeCannotBeCal from './IsotopeCannotBeCal.js';
-//TODO:404 screen
+import { getNuclide } from "../Services/nuclideData.js";
+
 const CalulationScreen = () => {
-    const [data, setData] = useState();
-    const nav = useNavigate()
+    const [data, setData] = useState(undefined);
+    const [loadError, setLoadError] = useState(null);
+    const nav = useNavigate();
     const {
         Z,
-        N,
-        setZ,
-        setN
+        N
     } = useGlobalState();
-    const apiCall = async () => {
-        let tmpZ = Z;
-        let tmpN = N;
-        try {
-            const url = `https://physics-poc.onrender.com/data?z=${tmpZ}&n=${tmpN}`;
 
-            const response = await fetch(url);
-            if (response.ok) {
-                const json = await response.json();
-                setData(json);
-            }
-        }
-        catch (e) {
-            console.log(e);
-        }
-    }
     useEffect(() => {
-        apiCall();
-        setZ()
-        setN()
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+        let active = true;
 
-    if (!data) {
+        setData(undefined);
+        setLoadError(null);
+
+        getNuclide(Number(Z), Number(N))
+            .then((nuclide) => {
+                if (active) {
+                    setData(nuclide);
+                }
+            })
+            .catch((error) => {
+                if (active) {
+                    setLoadError(error);
+                }
+            });
+
+        return () => {
+            active = false;
+        };
+    }, [Z, N]);
+
+    if (loadError) {
+        return (
+            <div className="flex flex-col items-center justify-center h-screen bg-[#6f263d] text-white p-8">
+                <h1 className="text-3xl font-semibold text-center">
+                    Unable to load the nuclear dataset
+                </h1>
+                <p className="mt-4 text-center">{loadError.message}</p>
+                <button
+                    type="button"
+                    className="mt-6 bg-white text-[#6f263d] px-6 py-3 rounded"
+                    onClick={() => nav('/')}
+                >
+                    Go back
+                </button>
+            </div>
+        );
+    }
+
+    if (data === undefined) {
         return (
             <div className="flex flex-row items-center justify-center h-screen bg-[#6f263d] " >
                 <div className="m-2 mb-3 self-center">
@@ -58,30 +87,26 @@ const CalulationScreen = () => {
             </div>
         )
     }
-    if (data.msg === "Sorry, but this Isotope is nonexistent!") {
-        return (
-            <IsotopeNotFound />
-        )
 
-    }
-    if (data["z"] === "0") {
+    if (data === null) {
         return (
             <IsotopeNotFound />
         )
     }
 
-    const atomic_mass = parseFloat(data['atomic_mass']) / 1000000
-    const atomic_number = parseInt(data['z'])
-    const neutron_number = parseInt(data['n']);
-    const element = elements(data['symbol']) + "-" + (atomic_number + neutron_number);
+    const atomic_mass = data.atomicMassU;
+    const atomic_number = data.z;
+    const neutron_number = data.n;
+    const element = elements(data.symbol) + "-" + (atomic_number + neutron_number);
     const elementName = splitElementName(element);
     const mass_number = atomic_number + neutron_number;
     
-    if (data["binding"] === "") {
-        const atomic_number = parseInt(data['z'])
-        const neutron_number = parseInt(data['n']);
-        const mass_number = atomic_number + neutron_number;
-        let name = `${elements(data['symbol'])}-${mass_number}`
+    if (
+        data.atomicMassU === null ||
+        data.bindingEnergyPerNucleonMeV === null
+    ) {
+        const name = `${elements(data.symbol)}-${mass_number}`;
+
         return (
             <IsotopeCannotBeCal element={name} z ={atomic_number} n ={neutron_number}  />
         )
@@ -126,15 +151,15 @@ const CalulationScreen = () => {
                         <br />
                         Conversion Factor: 1 amu = {conversion_amu_MeV} MeV/c<sup>2</sup>
                         <br />
-                        <hr class="hey-that’s-my-line" />
+                        <hr className="hey-that’s-my-line" />
                         Δm = {mass_defect_func(atomic_mass, atomic_number, neutron_number).toFixed(4)} amu
                         <br />
-                        B.E. = {BE_func(atomic_mass, atomic_number, neutron_number)} MeV 
+                        B.E. = {BE_func(atomic_mass, atomic_number, neutron_number).toFixed(4)} MeV
                         <br />
                         B.E. per nucleon (B.E./A): {(BE_func(atomic_mass, atomic_number, neutron_number) / mass_number).toFixed(4)} MeV
                         <br />
-                        <hr class="hey-that’s-my-line" />
-                        IAEA-NDS (B.E./A): {(data['binding'] / 1000).toFixed(4)} MeV
+                        <hr className="hey-that’s-my-line" />
+                        IAEA-NDS (B.E./A): {data.bindingEnergyPerNucleonMeV.toFixed(4)} MeV
                     </p>
                 </div>
 
@@ -157,13 +182,13 @@ const CalulationScreen = () => {
                         <br />
                         Pairing term coefficient: a<sub>P</sub> = {aP} MeV
                         <br />
-                        <hr class="hey-that’s-my-line" />
+                        <hr className="hey-that’s-my-line" />
                         B.E.: {liquid_drop_model(atomic_number, neutron_number).toFixed(4)} MeV
                         <br />
                         B.E./A: {(liquid_drop_model(atomic_number, neutron_number) / mass_number).toFixed(4)} MeV
                         <br />
-                        <hr class="hey-that’s-my-line" />
-                        IAEA-NDS (B.E./A): {(data['binding'] / 1000).toFixed(4)} MeV
+                        <hr className="hey-that’s-my-line" />
+                        IAEA-NDS (B.E./A): {data.bindingEnergyPerNucleonMeV.toFixed(4)} MeV
                     </p>
                 </div>
             </div>
